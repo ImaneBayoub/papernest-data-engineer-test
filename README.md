@@ -38,7 +38,7 @@ conn = psycopg2.connect(host=..., user=..., ...)
 ```
 However, `pd.read_sql()` generated warnings recommending **SQLAlchemy** as the preferred connectable. We therefore switched to:
 ```python
-engine = create_engine("postgresql://testread:testread@host:5432/souscritootest")
+engine = create_engine(...)
 ```
 
 ### Task 1 - Number of calls per quarter
@@ -52,8 +52,8 @@ Output: `calls_by_quarter.json`
 
 ### Task 2 - Call statistics per client
 Joining `test_client` and `test_call` on phone number required some investigation:
-- `phonenumber` in `test_client` is of type `TEXT` with a leading `0` (e.g. `0620324525`)
-- `clientphonenumberin/out` in `test_call` are of type `INTEGER` without the leading `0` (e.g. `620324525`)
+- `phonenumber` in `test_client` is of type `TEXT` with a leading `0` (e.g. `0620324575`)
+- `clientphonenumberin/out` in `test_call` are of type `INTEGER` without the leading `0` (e.g. `620324575`)
 
 Solution: cast to `TEXT` + `SUBSTRING` to strip the leading `0`:
 ```sql
